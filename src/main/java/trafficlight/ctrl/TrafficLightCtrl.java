@@ -22,11 +22,11 @@ public class TrafficLightCtrl {
 
     private void initStates() {
         //TODO create the states and set current and previous state
-        currentState = new Off();
+        currentState = new YellowState();
         greenState = new GreenState();
         redState = new Red();
         yellowState = new YellowState();
-        //previousState //n!not
+        previousState = new GreenState();
     }
 
     public State getGreenState() {
@@ -63,7 +63,9 @@ public class TrafficLightCtrl {
 
     public void nextState() {
         //TODO handle GUi request and update GUI
-        //---setPreviousState(currentState);  //n!not
+        if(currentState != yellowState)
+        setPreviousState(currentState);
+
         currentState.nextState(this);
         //System.out.println(currentState);  //datesta
         //gui.setLight(currentState.getState());

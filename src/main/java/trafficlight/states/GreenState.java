@@ -6,7 +6,7 @@ public class GreenState implements State{
 
     @Override
     public void nextState(TrafficLightCtrl tlc) {
-        tlc.setCurrentState(tlc.getRedState());
+        tlc.setCurrentState(tlc.getYellowState());
     }
 
     @Override

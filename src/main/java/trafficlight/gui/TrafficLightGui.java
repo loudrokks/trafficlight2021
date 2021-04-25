@@ -62,7 +62,6 @@ public class TrafficLightGui extends JFrame implements ActionListener {
         p1.add(yellow);
         p1.add(green);
 
-
         JPanel p2 = new JPanel(new FlowLayout());
         p2.add(buttonNextState);
         p2.add(labelAutoMode);
@@ -74,6 +73,7 @@ public class TrafficLightGui extends JFrame implements ActionListener {
     }
 
     public void run() {
+        //trafficLightCtrl.getYellowState();  //noeffect
         while (!doExit) {
             try {
                 Thread.sleep(100);
@@ -85,7 +85,8 @@ public class TrafficLightGui extends JFrame implements ActionListener {
             }
              while (isAutoMode) {
                  //TODO call the controller
-                 trafficLightCtrl.nextState();
+                 //trafficLightCtrl.nextState();  //rot->gelb->grün->..
+                 //trafficLightCtrl.getYellowState();  //jff_nofunk
 
                 try {
                     if (yellow.isOn) {  //yellow=f blinklicht
@@ -118,9 +119,11 @@ public class TrafficLightGui extends JFrame implements ActionListener {
         switch(trafficLightColor){
             case RED: red.turnOn(true);
                 green.turnOn(false);
+                yellow.turnOn(false);
                 break;
             case YELLOW: yellow.turnOn(true);
                 red.turnOn(false);
+                green.turnOn(false);
                 break;
             case GREEN: green.turnOn(true);
                 yellow.turnOn(false);
