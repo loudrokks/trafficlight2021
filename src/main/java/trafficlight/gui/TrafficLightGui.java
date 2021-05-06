@@ -85,8 +85,8 @@ public class TrafficLightGui extends JFrame implements ActionListener {
             }
              while (isAutoMode) {
                  //TODO call the controller
-                 //trafficLightCtrl.nextState();  //rot->gelb->grün->..
-                 //trafficLightCtrl.getYellowState();  //jff_nofunk
+                 trafficLightCtrl.nextState();  //rot->gelb->grün->..
+                 //trafficLightCtrl.getYellowState();  //nofunk
 
                 try {
                     if (yellow.isOn) {  //yellow=f blinklicht
@@ -115,6 +115,25 @@ public class TrafficLightGui extends JFrame implements ActionListener {
     }
 
     public void setLight(TrafficLightColor trafficLightColor){
+        //thread f gelb-blinklicht
+        Thread blinkt = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(trafficLightCtrl.getCurrentState().getState() == TrafficLightColor.YELLOW){
+                    try {
+                        Thread.sleep(400);  //yellowIntervall
+                        yellow.turnOn(false);
+                        Thread.sleep(400);
+                        yellow.turnOn(true);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                if(!trafficLightCtrl.getCurrentState().getState().equals(trafficLightColor.YELLOW))
+                    yellow.turnOn(false);
+                }
+            }
+        });
+
         //TODO setLight
         switch(trafficLightColor){
             case RED: red.turnOn(true);
@@ -122,6 +141,7 @@ public class TrafficLightGui extends JFrame implements ActionListener {
                 yellow.turnOn(false);
                 break;
             case YELLOW: yellow.turnOn(true);
+                blinkt.start();
                 red.turnOn(false);
                 green.turnOn(false);
                 break;
